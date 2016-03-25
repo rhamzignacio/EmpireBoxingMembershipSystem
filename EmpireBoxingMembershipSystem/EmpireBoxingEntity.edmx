@@ -1,0 +1,405 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="EmpireBoxingModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CLIENT_PROFILE">
+          <Key>
+            <PropertyRef Name="CLT_ID" />
+          </Key>
+          <Property Name="CLT_ID" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="CLT_TYPE" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="STATUS" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="FIRST_NAME" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="LAST_NAME" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="MIDDLE_INITIAL" Type="varchar" MaxLength="10" />
+          <Property Name="FULL_NAME" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="MEMBERSHIP_DATE" Type="datetime" Nullable="false" />
+          <Property Name="EXPIRATION_DATE" Type="datetime" Nullable="false" />
+          <Property Name="MED_RECORD" Type="varchar" MaxLength="300" />
+          <Property Name="BOXING" Type="int" Nullable="false" />
+          <Property Name="MUAY_THAI" Type="int" Nullable="false" />
+          <Property Name="BASSCON" Type="int" Nullable="false" />
+          <Property Name="MMA" Type="int" Nullable="false" />
+          <Property Name="FREE_BOXING" Type="int" Nullable="false" />
+          <Property Name="FREE_MUAY_THAI" Type="int" Nullable="false" />
+          <Property Name="FREE_BASSCON" Type="int" Nullable="false" />
+          <Property Name="FREE_MMA" Type="int" Nullable="false" />
+          <Property Name="BOXING_RATE" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="MUAY_THAI_RATE" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="BASSCON_RATE" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="MMA_RATE" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="AGE" Type="varchar" MaxLength="20" />
+          <Property Name="ADDRESS" Type="varchar" MaxLength="300" />
+          <Property Name="CONTACT_NO" Type="varchar" MaxLength="12" />
+          <Property Name="GENDER" Type="varchar" MaxLength="10" />
+          <Property Name="EMAIL" Type="varchar" MaxLength="100" />
+          <Property Name="SESSION_EXPIRY" Type="datetime" />
+          <Property Name="FREE_SESSION_EXPIRY" Type="datetime" />
+          <Property Name="IMAGE_LOC" Type="varchar" MaxLength="300" />
+          <Property Name="CORP_GROUP_NAME" Type="int" />
+          <Property Name="TYPE" Type="varchar" MaxLength="1" />
+          <Property Name="UNLIMITED_EXPIRY" Type="datetime" />
+          <Property Name="UNLIMITED_SRVC" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="GROUP_CORPORATE_MEMBERS">
+          <Key>
+            <PropertyRef Name="CLT_ID" />
+          </Key>
+          <Property Name="CORP_ID" Type="int" Nullable="false" />
+          <Property Name="CLT_ID" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GROUP_CORPORATE_PROFILE">
+          <Key>
+            <PropertyRef Name="NAME" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NAME" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CRT_DATE" Type="datetime" />
+          <Property Name="TYPE" Type="varchar" MaxLength="1" />
+        </EntityType>
+        <EntityType Name="PAYMENT_HISTORY">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CLT_ID" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="METHOD" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="AMOUNT" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="SESSION_CODE" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="CRT_DATE" Type="datetime" Nullable="false" />
+          <Property Name="CRT_BY" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="SESSION_RATE">
+          <Key>
+            <PropertyRef Name="SRVC_CODE" />
+          </Key>
+          <Property Name="SRVC_CODE" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="SRVC_NAME" Type="varchar" MaxLength="100" />
+          <Property Name="RATE" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="TYPE" Type="varchar" MaxLength="1" />
+          <Property Name="CATEGORY" Type="varchar" MaxLength="20" />
+          <Property Name="VALID_DAYS" Type="int" />
+        </EntityType>
+        <EntityType Name="SESSION_USED_HISTORY">
+          <Key>
+            <PropertyRef Name="SESS_HIST_ID" />
+          </Key>
+          <Property Name="CLT_ID" Type="varchar" MaxLength="20" />
+          <Property Name="SRVC_CODE" Type="varchar" MaxLength="20" />
+          <Property Name="CRT_DATE" Type="datetime" />
+          <Property Name="SESS_HIST_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CRT_BY" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="TIME_RECORD">
+          <Key>
+            <PropertyRef Name="TR_ID" />
+          </Key>
+          <Property Name="CLT_CODE" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="TIME_IN" Type="datetime" />
+          <Property Name="TIME_OUT" Type="datetime" />
+          <Property Name="SRVC_CODE" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="TR_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CRT_BY" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="USER_ACCOUNT">
+          <Key>
+            <PropertyRef Name="USERNAME" />
+          </Key>
+          <Property Name="USERNAME" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="PASSWORD" Type="varchar" MaxLength="50" />
+          <Property Name="CRT_BY" Type="varchar" MaxLength="100" />
+          <Property Name="CRT_DATE" Type="datetime" />
+          <Property Name="ACCESS_LVL" Type="varchar" MaxLength="20" />
+          <Property Name="FIRST_NAME" Type="varchar" MaxLength="80" />
+          <Property Name="LAST_NAME" Type="varchar" MaxLength="50" />
+          <Property Name="MIDDLE_INITIAL" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityContainer Name="EmpireBoxingModelStoreContainer">
+          <EntitySet Name="CLIENT_PROFILE" EntityType="Self.CLIENT_PROFILE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GROUP_CORPORATE_MEMBERS" EntityType="Self.GROUP_CORPORATE_MEMBERS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GROUP_CORPORATE_PROFILE" EntityType="Self.GROUP_CORPORATE_PROFILE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PAYMENT_HISTORY" EntityType="Self.PAYMENT_HISTORY" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SESSION_RATE" EntityType="Self.SESSION_RATE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SESSION_USED_HISTORY" EntityType="Self.SESSION_USED_HISTORY" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TIME_RECORD" EntityType="Self.TIME_RECORD" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="USER_ACCOUNT" EntityType="Self.USER_ACCOUNT" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="EmpireBoxingModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="EmpireBoxingEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CLIENT_PROFILE" EntityType="EmpireBoxingModel.CLIENT_PROFILE" />
+          <EntitySet Name="GROUP_CORPORATE_MEMBERS" EntityType="EmpireBoxingModel.GROUP_CORPORATE_MEMBERS" />
+          <EntitySet Name="GROUP_CORPORATE_PROFILE" EntityType="EmpireBoxingModel.GROUP_CORPORATE_PROFILE" />
+          <EntitySet Name="PAYMENT_HISTORY" EntityType="EmpireBoxingModel.PAYMENT_HISTORY" />
+          <EntitySet Name="SESSION_RATE" EntityType="EmpireBoxingModel.SESSION_RATE" />
+          <EntitySet Name="SESSION_USED_HISTORY" EntityType="EmpireBoxingModel.SESSION_USED_HISTORY" />
+          <EntitySet Name="TIME_RECORD" EntityType="EmpireBoxingModel.TIME_RECORD" />
+          <EntitySet Name="USER_ACCOUNT" EntityType="EmpireBoxingModel.USER_ACCOUNT" />
+        </EntityContainer>
+        <EntityType Name="CLIENT_PROFILE">
+          <Key>
+            <PropertyRef Name="CLT_ID" />
+          </Key>
+          <Property Name="CLT_ID" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CLT_TYPE" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="STATUS" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="FIRST_NAME" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LAST_NAME" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MIDDLE_INITIAL" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="FULL_NAME" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="MEMBERSHIP_DATE" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EXPIRATION_DATE" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="MED_RECORD" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="BOXING" Type="Int32" Nullable="false" />
+          <Property Name="MUAY_THAI" Type="Int32" Nullable="false" />
+          <Property Name="BASSCON" Type="Int32" Nullable="false" />
+          <Property Name="MMA" Type="Int32" Nullable="false" />
+          <Property Name="FREE_BOXING" Type="Int32" Nullable="false" />
+          <Property Name="FREE_MUAY_THAI" Type="Int32" Nullable="false" />
+          <Property Name="FREE_BASSCON" Type="Int32" Nullable="false" />
+          <Property Name="FREE_MMA" Type="Int32" Nullable="false" />
+          <Property Name="BOXING_RATE" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="MUAY_THAI_RATE" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="BASSCON_RATE" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="MMA_RATE" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="AGE" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="ADDRESS" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="CONTACT_NO" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Name="GENDER" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="EMAIL" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="SESSION_EXPIRY" Type="DateTime" Precision="3" />
+          <Property Name="FREE_SESSION_EXPIRY" Type="DateTime" Precision="3" />
+          <Property Name="IMAGE_LOC" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="CORP_GROUP_NAME" Type="Int32" />
+          <Property Name="TYPE" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="UNLIMITED_EXPIRY" Type="DateTime" Precision="3" />
+          <Property Name="UNLIMITED_SRVC" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="GROUP_CORPORATE_MEMBERS">
+          <Key>
+            <PropertyRef Name="CLT_ID" />
+          </Key>
+          <Property Name="CORP_ID" Type="Int32" Nullable="false" />
+          <Property Name="CLT_ID" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="GROUP_CORPORATE_PROFILE">
+          <Key>
+            <PropertyRef Name="NAME" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NAME" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CRT_DATE" Type="DateTime" Precision="3" />
+          <Property Name="TYPE" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="PAYMENT_HISTORY">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CLT_ID" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="METHOD" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="AMOUNT" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="SESSION_CODE" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="CRT_DATE" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CRT_BY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="SESSION_RATE">
+          <Key>
+            <PropertyRef Name="SRVC_CODE" />
+          </Key>
+          <Property Name="SRVC_CODE" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="SRVC_NAME" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="RATE" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="TYPE" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="CATEGORY" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="VALID_DAYS" Type="Int32" />
+        </EntityType>
+        <EntityType Name="SESSION_USED_HISTORY">
+          <Key>
+            <PropertyRef Name="SESS_HIST_ID" />
+          </Key>
+          <Property Name="CLT_ID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="SRVC_CODE" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CRT_DATE" Type="DateTime" Precision="3" />
+          <Property Name="SESS_HIST_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CRT_BY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="TIME_RECORD">
+          <Key>
+            <PropertyRef Name="TR_ID" />
+          </Key>
+          <Property Name="CLT_CODE" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="TIME_IN" Type="DateTime" Precision="3" />
+          <Property Name="TIME_OUT" Type="DateTime" Precision="3" />
+          <Property Name="SRVC_CODE" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="TR_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CRT_BY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="USER_ACCOUNT">
+          <Key>
+            <PropertyRef Name="USERNAME" />
+          </Key>
+          <Property Name="USERNAME" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="PASSWORD" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CRT_BY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CRT_DATE" Type="DateTime" Precision="3" />
+          <Property Name="ACCESS_LVL" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="FIRST_NAME" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="LAST_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MIDDLE_INITIAL" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="EmpireBoxingModelStoreContainer" CdmEntityContainer="EmpireBoxingEntities">
+          <EntitySetMapping Name="CLIENT_PROFILE">
+            <EntityTypeMapping TypeName="EmpireBoxingModel.CLIENT_PROFILE">
+              <MappingFragment StoreEntitySet="CLIENT_PROFILE">
+                <ScalarProperty Name="UNLIMITED_SRVC" ColumnName="UNLIMITED_SRVC" />
+                <ScalarProperty Name="UNLIMITED_EXPIRY" ColumnName="UNLIMITED_EXPIRY" />
+                <ScalarProperty Name="TYPE" ColumnName="TYPE" />
+                <ScalarProperty Name="CORP_GROUP_NAME" ColumnName="CORP_GROUP_NAME" />
+                <ScalarProperty Name="IMAGE_LOC" ColumnName="IMAGE_LOC" />
+                <ScalarProperty Name="FREE_SESSION_EXPIRY" ColumnName="FREE_SESSION_EXPIRY" />
+                <ScalarProperty Name="SESSION_EXPIRY" ColumnName="SESSION_EXPIRY" />
+                <ScalarProperty Name="EMAIL" ColumnName="EMAIL" />
+                <ScalarProperty Name="GENDER" ColumnName="GENDER" />
+                <ScalarProperty Name="CONTACT_NO" ColumnName="CONTACT_NO" />
+                <ScalarProperty Name="ADDRESS" ColumnName="ADDRESS" />
+                <ScalarProperty Name="AGE" ColumnName="AGE" />
+                <ScalarProperty Name="MMA_RATE" ColumnName="MMA_RATE" />
+                <ScalarProperty Name="BASSCON_RATE" ColumnName="BASSCON_RATE" />
+                <ScalarProperty Name="MUAY_THAI_RATE" ColumnName="MUAY_THAI_RATE" />
+                <ScalarProperty Name="BOXING_RATE" ColumnName="BOXING_RATE" />
+                <ScalarProperty Name="FREE_MMA" ColumnName="FREE_MMA" />
+                <ScalarProperty Name="FREE_BASSCON" ColumnName="FREE_BASSCON" />
+                <ScalarProperty Name="FREE_MUAY_THAI" ColumnName="FREE_MUAY_THAI" />
+                <ScalarProperty Name="FREE_BOXING" ColumnName="FREE_BOXING" />
+                <ScalarProperty Name="MMA" ColumnName="MMA" />
+                <ScalarProperty Name="BASSCON" ColumnName="BASSCON" />
+                <ScalarProperty Name="MUAY_THAI" ColumnName="MUAY_THAI" />
+                <ScalarProperty Name="BOXING" ColumnName="BOXING" />
+                <ScalarProperty Name="MED_RECORD" ColumnName="MED_RECORD" />
+                <ScalarProperty Name="EXPIRATION_DATE" ColumnName="EXPIRATION_DATE" />
+                <ScalarProperty Name="MEMBERSHIP_DATE" ColumnName="MEMBERSHIP_DATE" />
+                <ScalarProperty Name="FULL_NAME" ColumnName="FULL_NAME" />
+                <ScalarProperty Name="MIDDLE_INITIAL" ColumnName="MIDDLE_INITIAL" />
+                <ScalarProperty Name="LAST_NAME" ColumnName="LAST_NAME" />
+                <ScalarProperty Name="FIRST_NAME" ColumnName="FIRST_NAME" />
+                <ScalarProperty Name="STATUS" ColumnName="STATUS" />
+                <ScalarProperty Name="CLT_TYPE" ColumnName="CLT_TYPE" />
+                <ScalarProperty Name="CLT_ID" ColumnName="CLT_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GROUP_CORPORATE_MEMBERS">
+            <EntityTypeMapping TypeName="EmpireBoxingModel.GROUP_CORPORATE_MEMBERS">
+              <MappingFragment StoreEntitySet="GROUP_CORPORATE_MEMBERS">
+                <ScalarProperty Name="CLT_ID" ColumnName="CLT_ID" />
+                <ScalarProperty Name="CORP_ID" ColumnName="CORP_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GROUP_CORPORATE_PROFILE">
+            <EntityTypeMapping TypeName="EmpireBoxingModel.GROUP_CORPORATE_PROFILE">
+              <MappingFragment StoreEntitySet="GROUP_CORPORATE_PROFILE">
+                <ScalarProperty Name="TYPE" ColumnName="TYPE" />
+                <ScalarProperty Name="CRT_DATE" ColumnName="CRT_DATE" />
+                <ScalarProperty Name="NAME" ColumnName="NAME" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PAYMENT_HISTORY">
+            <EntityTypeMapping TypeName="EmpireBoxingModel.PAYMENT_HISTORY">
+              <MappingFragment StoreEntitySet="PAYMENT_HISTORY">
+                <ScalarProperty Name="CRT_BY" ColumnName="CRT_BY" />
+                <ScalarProperty Name="CRT_DATE" ColumnName="CRT_DATE" />
+                <ScalarProperty Name="SESSION_CODE" ColumnName="SESSION_CODE" />
+                <ScalarProperty Name="AMOUNT" ColumnName="AMOUNT" />
+                <ScalarProperty Name="METHOD" ColumnName="METHOD" />
+                <ScalarProperty Name="CLT_ID" ColumnName="CLT_ID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SESSION_RATE">
+            <EntityTypeMapping TypeName="EmpireBoxingModel.SESSION_RATE">
+              <MappingFragment StoreEntitySet="SESSION_RATE">
+                <ScalarProperty Name="VALID_DAYS" ColumnName="VALID_DAYS" />
+                <ScalarProperty Name="CATEGORY" ColumnName="CATEGORY" />
+                <ScalarProperty Name="TYPE" ColumnName="TYPE" />
+                <ScalarProperty Name="RATE" ColumnName="RATE" />
+                <ScalarProperty Name="SRVC_NAME" ColumnName="SRVC_NAME" />
+                <ScalarProperty Name="SRVC_CODE" ColumnName="SRVC_CODE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SESSION_USED_HISTORY">
+            <EntityTypeMapping TypeName="EmpireBoxingModel.SESSION_USED_HISTORY">
+              <MappingFragment StoreEntitySet="SESSION_USED_HISTORY">
+                <ScalarProperty Name="CRT_BY" ColumnName="CRT_BY" />
+                <ScalarProperty Name="SESS_HIST_ID" ColumnName="SESS_HIST_ID" />
+                <ScalarProperty Name="CRT_DATE" ColumnName="CRT_DATE" />
+                <ScalarProperty Name="SRVC_CODE" ColumnName="SRVC_CODE" />
+                <ScalarProperty Name="CLT_ID" ColumnName="CLT_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TIME_RECORD">
+            <EntityTypeMapping TypeName="EmpireBoxingModel.TIME_RECORD">
+              <MappingFragment StoreEntitySet="TIME_RECORD">
+                <ScalarProperty Name="CRT_BY" ColumnName="CRT_BY" />
+                <ScalarProperty Name="TR_ID" ColumnName="TR_ID" />
+                <ScalarProperty Name="SRVC_CODE" ColumnName="SRVC_CODE" />
+                <ScalarProperty Name="TIME_OUT" ColumnName="TIME_OUT" />
+                <ScalarProperty Name="TIME_IN" ColumnName="TIME_IN" />
+                <ScalarProperty Name="CLT_CODE" ColumnName="CLT_CODE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="USER_ACCOUNT">
+            <EntityTypeMapping TypeName="EmpireBoxingModel.USER_ACCOUNT">
+              <MappingFragment StoreEntitySet="USER_ACCOUNT">
+                <ScalarProperty Name="MIDDLE_INITIAL" ColumnName="MIDDLE_INITIAL" />
+                <ScalarProperty Name="LAST_NAME" ColumnName="LAST_NAME" />
+                <ScalarProperty Name="FIRST_NAME" ColumnName="FIRST_NAME" />
+                <ScalarProperty Name="ACCESS_LVL" ColumnName="ACCESS_LVL" />
+                <ScalarProperty Name="CRT_DATE" ColumnName="CRT_DATE" />
+                <ScalarProperty Name="CRT_BY" ColumnName="CRT_BY" />
+                <ScalarProperty Name="PASSWORD" ColumnName="PASSWORD" />
+                <ScalarProperty Name="USERNAME" ColumnName="USERNAME" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="false" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

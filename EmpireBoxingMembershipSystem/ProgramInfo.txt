@@ -1,0 +1,36 @@
+﻿Product Owner: Robert Del Rosario
+Developer: Ramil Charles Ignacio
+Company Name: Empire Boxing Gym
+Product Name: Empire Boxing Membership System
+Developer: Ramil Charles V. Ignacio
+Language: C# - WPF
+Timeline: September 30 - December 30 (3 Months)
+Status: Deployed - ongoing suport
+
+Price: PHP 22,000 - Paid: PHP 26,000
+
+version 1.0 = December 2016
+ 
+version 1.1 = January 2016
+	-Bugfixes
+	-Added Transaction History
+	-Added Session History
+
+version 2.0 = March 3, 2016 (PHP 1,000)
+	-Activate/Deactivate Function for Client Module
+	-User Training
+	-UI Fixes
+	-Histories Data show fixes
+
+version 2.1 = March 23, 2016
+	-Upload filter (accepts image format only)
+	-Bug fixing in member and corporate conflicts
+	-Added error handlers in showing of image
+	-Fixes in Age issue in Client Profile
+	-Double click error on Group/Corporate form fixes
+	-Change label on buttons in Client profile
+	-Fix unlimited / member conflict in single session module
+
+version 2.1.1 = March 24, 2016
+	-Add cancel function in single session module
+	-Crash Bug fixes

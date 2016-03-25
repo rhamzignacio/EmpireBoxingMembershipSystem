@@ -1,0 +1,22 @@
+﻿CLTID formula
+(YYYYMMDDCCC)
+Year+Month+Day+3digit total count
+
+CLT_TYPE
+O = Ordinary
+G = Group
+D = Person with Disable
+S = Student
+C = Child (Age 3-7)
+K = Kids  (Age 8-17)
+
+Session Rate Type
+P = Pack
+S = Single Session
+D = Drop Rate
+P = Personalize
+G = Group/Corporate Session
+A = Ages 8-17
+B = Boxplay
+Y = Youth MMA
+M = Membership

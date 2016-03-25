@@ -1,0 +1,32 @@
+﻿<Window x:Class="EmpireBoxingMembershipSystem.Client.AddNewPack"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:EmpireBoxingMembershipSystem.Client"
+        mc:Ignorable="d"
+        Title="AddNewPack" Height="292.726" Width="298.662" WindowStyle="ToolWindow" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <GroupBox x:Name="groupBox" Header="Custom Package" HorizontalAlignment="Left" Margin="50,54,0,0" VerticalAlignment="Top" Height="84" Width="210">
+
+        </GroupBox>
+        <Label x:Name="Boxing" Content="Boxing" HorizontalAlignment="Left" Margin="57,75,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.537,0.16"/>
+        <Label x:Name="label" HorizontalAlignment="Left" Margin="57,79,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="label1" Content="Muay Thai" HorizontalAlignment="Left" Margin="145,75,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="label2" Content="MMA" HorizontalAlignment="Left" Margin="64,103,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="label3" Content="B@sscon" HorizontalAlignment="Left" Margin="152,103,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="txtBoxBoxing" Height="23" Margin="115,79,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="22" KeyUp="txtBoxBoxing_KeyUp" TextChanged="txtBoxBoxing_TextChanged"/>
+        <TextBox x:Name="txtBoxMuayThai" HorizontalAlignment="Left" Height="23" Margin="222,79,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="22" TextChanged="txtBoxMuayThai_TextChanged"/>
+        <TextBox x:Name="txtBoxMma" HorizontalAlignment="Left" Height="23" Margin="115,107,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="22" TextChanged="txtBoxMma_TextChanged"/>
+        <TextBox x:Name="txtBoxBasscon" HorizontalAlignment="Left" Height="23" Margin="222,107,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="22" TextChanged="txtBoxBasscon_TextChanged"/>
+        <TextBox x:Name="txtBoxPrice" HorizontalAlignment="Left" Height="23" Margin="115,148,0,0" TextWrapping="Wrap" Text="0.00" VerticalAlignment="Top" Width="145" TextAlignment="Right" IsReadOnly="True" TextChanged="txtBoxPrice_TextChanged"/>
+        <Label x:Name="label4" Content="Price" HorizontalAlignment="Left" Margin="74,147,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="button" Content="Okay" HorizontalAlignment="Left" Margin="50,221,0,0" VerticalAlignment="Top" Width="75" Click="button_Click"/>
+        <Button x:Name="button1" Content="Cancel" HorizontalAlignment="Left" Margin="185,221,0,0" VerticalAlignment="Top" Width="75" Click="button1_Click"/>
+        <ComboBox x:Name="cmbBoxPackage" HorizontalAlignment="Left" Margin="115,13,0,0" VerticalAlignment="Top" Width="145" SelectionChanged="cmbBoxPackage_SelectionChanged"/>
+        <Label x:Name="label5" Content="Package" HorizontalAlignment="Left" Margin="57,9,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="label6" Content="Expiration Date" HorizontalAlignment="Left" Margin="24,175,0,0" VerticalAlignment="Top"/>
+        <DatePicker x:Name="expirationDate" HorizontalAlignment="Left" Margin="115,176,0,0" VerticalAlignment="Top" Width="145"/>
+
+    </Grid>
+</Window>

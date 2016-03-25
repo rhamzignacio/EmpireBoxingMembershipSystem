@@ -1,0 +1,18 @@
+﻿<Window x:Class="EmpireBoxingMembershipSystem.Client.AddSingleSession"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:EmpireBoxingMembershipSystem.Client"
+        mc:Ignorable="d"
+        Title="AddSingleSession" Height="177.876" Width="303.982" WindowStyle="ToolWindow" WindowStartupLocation="CenterScreen">
+    <Grid Height="148" VerticalAlignment="Top">
+        <Label x:Name="label" Content="Session" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+        <ComboBox x:Name="cmbBoxSession" HorizontalAlignment="Left" Margin="65,14,0,0" VerticalAlignment="Top" Width="204" SelectionChanged="cmbBoxSession_SelectionChanged"/>
+        <Label x:Name="label1" Content="Price" HorizontalAlignment="Left" Margin="24,50,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="txtBoxPrice" HorizontalAlignment="Left" Height="23" Margin="65,50,0,0" TextWrapping="Wrap" Text="0.00" VerticalAlignment="Top" Width="73" TextAlignment="Right" IsReadOnly="True" TextChanged="txtBoxPrice_TextChanged"/>
+        <Button x:Name="btnOkay" Content="Okay" HorizontalAlignment="Left" Margin="18,114,0,0" VerticalAlignment="Top" Width="75" Click="btnOkay_Click"/>
+        <Button x:Name="btnCancel" Content="Cancel" HorizontalAlignment="Left" Margin="211,114,0,0" VerticalAlignment="Top" Width="75" Click="btnCancel_Click"/>
+
+    </Grid>
+</Window>

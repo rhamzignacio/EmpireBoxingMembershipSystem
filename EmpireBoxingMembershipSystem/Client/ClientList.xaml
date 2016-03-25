@@ -1,0 +1,23 @@
+﻿<Window x:Class="EmpireBoxingMembershipSystem.Client.ClientList"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:EmpireBoxingMembershipSystem.Client"
+        mc:Ignorable="d"
+        Title="List of Clients" Height="387.746" Width="650.512" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="109*"/>
+        </Grid.RowDefinitions>
+        <Button x:Name="btnView" Content="View" HorizontalAlignment="Left" Margin="90,4,0,0" VerticalAlignment="Top" Width="75" Click="btnView_Click" Height="20"/>
+        <DataGrid x:Name="clientGrid" Margin="5,2,0,0" Grid.Row="1" IsReadOnly="True" SelectionMode="Single" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        <TextBox x:Name="txtBoxSearch" HorizontalAlignment="Left" Height="23" Margin="386,3,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="167"/>
+        <Button x:Name="btnSearch" Content="Search" HorizontalAlignment="Left" Margin="558,4,0,0" VerticalAlignment="Top" Width="75" Click="btnSearch_Click" Height="20"/>
+        <Button x:Name="btnUpdate" Content="Update" HorizontalAlignment="Left" Margin="170,4,0,0" VerticalAlignment="Top" Width="75" Click="btnUpdate_Click" Height="20"/>
+        <Button x:Name="btnDelete" Content="Activate/Deactive" HorizontalAlignment="Left" Margin="250,4,0,0" VerticalAlignment="Top" Width="114" Click="btnDelete_Click"  Height="20" Background="#FFFFC1C1"/>
+        <Button x:Name="btnNew" Content="New" HorizontalAlignment="Left" Margin="10,4,0,0" VerticalAlignment="Top" Width="75" Click="btnNew_Click_1"  Height="20"/>
+
+    </Grid>
+</Window>
