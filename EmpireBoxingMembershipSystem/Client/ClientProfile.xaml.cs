@@ -462,7 +462,14 @@ namespace EmpireBoxingMembershipSystem.Client
 
             decimal rate;
 
-            if (int.Parse(lblAge.Content.ToString()) <= 17 || 
+            int age = 0;
+
+            if (lblAge.Content.ToString() != "")
+                age = int.Parse(lblAge.Content.ToString());
+            else
+                age = 30;
+
+            if (age <= 17 || 
                 lblType.Content.ToString() == "Student / Senior Citizen / PWDs")
             {
                 db = new EmpireBoxingEntities();
