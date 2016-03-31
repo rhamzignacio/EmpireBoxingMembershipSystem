@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EmpireBoxingMembershipSystem"
         mc:Ignorable="d"
-        Title="Empire Boxing Gym 2.1.1" Height="286.063" Width="438.717" WindowStartupLocation="CenterScreen" WindowStyle="ToolWindow">
+        Title="Empire Boxing Gym 2.2" Height="286.063" Width="438.717" WindowStartupLocation="CenterScreen" WindowStyle="ToolWindow">
     <Grid Background="Black">
         <Image x:Name="image" HorizontalAlignment="Left" Height="100" Margin="171,10,0,0" VerticalAlignment="Top" Width="100" Source="Src/image1.jpeg"/>
         <Label x:Name="label" Content="Username" HorizontalAlignment="Left" Margin="110,122,0,0" VerticalAlignment="Top" AllowDrop="True" Foreground="#FFFFF7F7"/>

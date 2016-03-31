@@ -121,7 +121,7 @@ namespace EmpireBoxingMembershipSystem.Client
                 //Add Corporate Session Rate
                 if (ifGroup.ToList().Count > 0)
                 {
-                    var sessionGroup = db.SESSION_RATE.Where(r => r.SRVC_CODE.Contains("GC"));
+                    var sessionGroup = db.SESSION_RATE.Where(r => r.SRVC_CODE.Contains("GC") && !r.SRVC_NAME.Contains("Pack"));
 
                     foreach (var item in sessionGroup)
                     {

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EmpireBoxingMembershipSystem"
         mc:Ignorable="d"
-        Title="Empire Boxing Membership System 2.1.1" Height="505.365" Width="990.142" Background="Black" Closed="Window_Closed" WindowStartupLocation="CenterScreen">
+        Title="Empire Boxing Membership System 2.2" Height="505.365" Width="990.142" Background="Black" Closed="Window_Closed" WindowStartupLocation="CenterScreen">
     <Grid x:Name="Grid" KeyUp="Grid_KeyUp" KeyDown="Grid_KeyDown">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="899*"/>

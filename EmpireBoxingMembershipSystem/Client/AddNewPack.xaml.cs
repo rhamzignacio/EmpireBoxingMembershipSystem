@@ -84,20 +84,9 @@ namespace EmpireBoxingMembershipSystem.Client
 
             var listPackage = package.ToList();
 
-            foreach (var item in listPackage)
-            {
-                ComboBoxItem cbxItem = new ComboBoxItem
-                {
-                    Tag = item.SRVC_CODE,
-                    Content = item.SRVC_NAME
-                };
-
-                cmbBoxPackage.Items.Add(cbxItem);
-            }
-
             if (ifGroup.ToList().Count > 0)
             {
-                var group = package.Where(r => r.SRVC_CODE.Contains("GC")).ToList();
+                var group = db.SESSION_RATE.Where(r => r.SRVC_CODE.Contains("GC") && r.SRVC_NAME.Contains("Pack")).ToList();
 
                 foreach (var item in group)
                 {
@@ -110,6 +99,19 @@ namespace EmpireBoxingMembershipSystem.Client
                     cmbBoxPackage.Items.Add(cbxItem);
                 }
             }
+
+            foreach (var item in listPackage)
+            {
+                ComboBoxItem cbxItem = new ComboBoxItem
+                {
+                    Tag = item.SRVC_CODE,
+                    Content = item.SRVC_NAME
+                };
+
+                cmbBoxPackage.Items.Add(cbxItem);
+            }
+
+            
         }
 
         private void cmbBoxPackage_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -224,6 +226,22 @@ namespace EmpireBoxingMembershipSystem.Client
                             break;
                         case "3PMUAYTHAI":
                             client.MUAY_THAI += 3;
+                            break;
+                            //Group Rate
+                        case "GC10PBASSCON" :
+                            client.BASSCON += 10;
+                            break;
+
+                        case "GC10PMMA":
+                            client.MMA += 10;
+                            break;
+
+                        case "GC12PBOXING":
+                            client.BOXING += 12;
+                            break;
+
+                        case "GC12PMUAYTHAI":
+                            client.MUAY_THAI += 12;
                             break;
                     }
                     message = ((ComboBoxItem)cmbBoxPackage.SelectedItem).Content.ToString();
