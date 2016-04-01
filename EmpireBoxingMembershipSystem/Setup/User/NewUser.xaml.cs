@@ -40,24 +40,31 @@ namespace EmpireBoxingMembershipSystem.Setup
         
         private void GetExistingData(string _userName)
         {
-            EmpireBoxingEntities db = new EmpireBoxingEntities();
+            try
+            {
+                EmpireBoxingEntities db = new EmpireBoxingEntities();
 
-            var user = db.USER_ACCOUNT.FirstOrDefault(r => r.USERNAME == _userName);
+                var user = db.USER_ACCOUNT.FirstOrDefault(r => r.USERNAME == _userName);
 
-            txtBoxUsername.Text = user.USERNAME;
+                txtBoxUsername.Text = user.USERNAME;
 
-            txtBoxFirstName.Text = user.FIRST_NAME;
+                txtBoxFirstName.Text = user.FIRST_NAME;
 
-            txtBoxLastName.Text = user.LAST_NAME;
+                txtBoxLastName.Text = user.LAST_NAME;
 
-            txtBoxMiddleInitial.Text = user.MIDDLE_INITIAL;
+                txtBoxMiddleInitial.Text = user.MIDDLE_INITIAL;
 
-            txtBoxPassword.Password = user.PASSWORD;
+                txtBoxPassword.Password = user.PASSWORD;
 
-            if (user.ACCESS_LVL.ToLower() == "admin")
-                checkBoxAdmin.IsChecked = true;
+                if (user.ACCESS_LVL.ToLower() == "admin")
+                    checkBoxAdmin.IsChecked = true;
 
-            txtBoxUsername.IsEnabled = false; //Cannot change username
+                txtBoxUsername.IsEnabled = false; //Cannot change username
+            }
+            catch(Exception error)
+            {
+                MessageBox.Show(error.Message, "Error");
+            }
         }
 
         private void btnSave_Click(object sender, RoutedEventArgs e)

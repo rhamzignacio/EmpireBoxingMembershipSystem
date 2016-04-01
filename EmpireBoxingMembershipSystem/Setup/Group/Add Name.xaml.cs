@@ -30,52 +30,59 @@ namespace EmpireBoxingMembershipSystem.Setup.Group
 
         private void AddClient()//Add Client to the list
         {
-            EmpireBoxingEntities db = new EmpireBoxingEntities();
-
-            var clt = db.CLIENT_PROFILE.Where(r => r.CLT_ID == txtBoxClientID.Text).ToList();
-
-            if (clt.Count == 0) //If invalid ID No.
+            try
             {
-                MessageBox.Show("Invalid ID No.", "Error");
-            }
+                EmpireBoxingEntities db = new EmpireBoxingEntities();
 
-            var grpMember = db.GROUP_CORPORATE_MEMBERS.Where(r => r.CLT_ID == txtBoxClientID.Text).ToList().Count;
+                var clt = db.CLIENT_PROFILE.Where(r => r.CLT_ID == txtBoxClientID.Text).ToList();
 
-            if (grpMember > 0) //If member already belong to a Group/Corporate
-            {
-                MessageBox.Show("Client already belong to a Group/Corporate Account", "Error on Saving");
-            }
-            else
-            {
-
-                bool noDuplicate = true;
-
-                List<OpenGroupList.GroupName> gridItem = parentForm.groupDataGrid.Items.Cast<OpenGroupList.GroupName>().ToList();
-
-                foreach (var item in gridItem)
+                if (clt.Count == 0) //If invalid ID No.
                 {
-                    if (item.NameID == txtBoxClientID.Text)
-                        noDuplicate = false;
+                    MessageBox.Show("Invalid ID No.", "Error");
                 }
 
-                if (noDuplicate)
+                var grpMember = db.GROUP_CORPORATE_MEMBERS.Where(r => r.CLT_ID == txtBoxClientID.Text).ToList().Count;
+
+                if (grpMember > 0) //If member already belong to a Group/Corporate
                 {
-                    var client = db.CLIENT_PROFILE.FirstOrDefault(r => r.CLT_ID == txtBoxClientID.Text);
-
-                    OpenGroupList.GroupName gName = new OpenGroupList.GroupName
-                    {
-                        Name = client.FULL_NAME,
-                        NameID = client.CLT_ID
-                    };
-
-                    parentForm.groupDataGrid.Items.Add(gName);
-
-                    txtBoxClientID.Text = "";
+                    MessageBox.Show("Client already belong to a Group/Corporate Account", "Error on Saving");
                 }
                 else
                 {
-                    MessageBox.Show("Already added on the list");
+
+                    bool noDuplicate = true;
+
+                    List<OpenGroupList.GroupName> gridItem = parentForm.groupDataGrid.Items.Cast<OpenGroupList.GroupName>().ToList();
+
+                    foreach (var item in gridItem)
+                    {
+                        if (item.NameID == txtBoxClientID.Text)
+                            noDuplicate = false;
+                    }
+
+                    if (noDuplicate)
+                    {
+                        var client = db.CLIENT_PROFILE.FirstOrDefault(r => r.CLT_ID == txtBoxClientID.Text);
+
+                        OpenGroupList.GroupName gName = new OpenGroupList.GroupName
+                        {
+                            Name = client.FULL_NAME,
+                            NameID = client.CLT_ID
+                        };
+
+                        parentForm.groupDataGrid.Items.Add(gName);
+
+                        txtBoxClientID.Text = "";
+                    }
+                    else
+                    {
+                        MessageBox.Show("Already added on the list");
+                    }
                 }
+            }
+            catch(Exception error)
+            {
+                MessageBox.Show(error.Message, "Error");
             }
         }
 

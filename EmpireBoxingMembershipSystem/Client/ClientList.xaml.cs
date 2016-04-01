@@ -97,59 +97,73 @@ namespace EmpireBoxingMembershipSystem.Client
 
         private void GetClientList(string searchKey)
         {
-            clientGrid.Items.Clear(); //Clear Data Grid
-
-            EmpireBoxingEntities db = new EmpireBoxingEntities();
-
-            var list = db.CLIENT_PROFILE.OrderBy(r=>r.FULL_NAME).ToList();
-
-            if (searchKey != "")
-                list = list.AsQueryable().Where(r => r.FULL_NAME.ToLower()
-                .Contains(searchKey.ToLower())).ToList();
-
-            foreach(var item in list)
+            try
             {
-                string temp = "";
+                clientGrid.Items.Clear(); //Clear Data Grid
 
-                if (item.CORP_GROUP_NAME != null)
+                EmpireBoxingEntities db = new EmpireBoxingEntities();
+
+                var list = db.CLIENT_PROFILE.OrderBy(r => r.FULL_NAME).ToList();
+
+                if (searchKey != "")
+                    list = list.AsQueryable().Where(r => r.FULL_NAME.ToLower()
+                    .Contains(searchKey.ToLower())).ToList();
+
+                foreach (var item in list)
                 {
-                    temp = db.GROUP_CORPORATE_PROFILE.FirstOrDefault
-                        (r => r.ID == item.CORP_GROUP_NAME).NAME;
+                    string temp = "";
+
+                    if (item.CORP_GROUP_NAME != null)
+                    {
+                        temp = db.GROUP_CORPORATE_PROFILE.FirstOrDefault
+                            (r => r.ID == item.CORP_GROUP_NAME).NAME;
+                    }
+                    else
+                        temp = "None";
+
+                    Clients clt = new Clients
+                    {
+                        Status = item.STATUS,
+                        ClientID = item.CLT_ID,
+                        FullName = item.FULL_NAME,
+                        Age = item.AGE,
+                        ExpirationDate = item.EXPIRATION_DATE.ToShortDateString(),
+                        ContactNo = item.CONTACT_NO,
+                        GroupName = temp
+                    };
+
+                    clientGrid.Items.Add(clt);
                 }
-                else
-                    temp = "None";
-                               
-                Clients clt = new Clients
-                {
-                    Status = item.STATUS,
-                    ClientID = item.CLT_ID,
-                    FullName = item.FULL_NAME,
-                    Age = item.AGE,
-                    ExpirationDate = item.EXPIRATION_DATE.ToShortDateString(),
-                    ContactNo = item.CONTACT_NO,
-                    GroupName = temp
-                };
-
-                clientGrid.Items.Add(clt);
+            }
+            catch(Exception error)
+            {
+                MessageBox.Show(error.Message, "Error");
             }
         }
 
         private void btnView_Click(object sender, RoutedEventArgs e)
         {
-            Clients header = (Clients)clientGrid.SelectedItem;
-
-            if (header != null)
+            try
             {
-                if (header.Status == "Active")
+                Clients header = (Clients)clientGrid.SelectedItem;
+
+                if (header != null)
                 {
-                    ClientProfile form = new ClientProfile(header.ClientID.ToString(), user);
-                    form.ShowDialog();
+                    if (header.Status == "Active")
+                    {
+                        ClientProfile form = new ClientProfile(header.ClientID.ToString(), user);
+                        form.ShowDialog();
+                    }
+                    else
+                        MessageBox.Show("Client is Inactive", "Error");
                 }
                 else
-                    MessageBox.Show("Client is Inactive", "Error");
+                    MessageBox.Show("Select Data from Grid", "Error");
             }
-            else
-                MessageBox.Show("Select Data from Grid", "Error");
+            catch(Exception error)
+            {
+                MessageBox.Show(error.Message, "Error");
+            }
         }
 
         private void btnSearch_Click(object sender, RoutedEventArgs e)

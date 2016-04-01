@@ -60,32 +60,46 @@ namespace EmpireBoxingMembershipSystem.Setup.Rates
 
         private void GetRateList()
         {
-            ratesGrid.Items.Clear();
-            EmpireBoxingEntities db = new EmpireBoxingEntities();
-            var list = db.SESSION_RATE.OrderBy(r => r.CATEGORY).ToList();
-            foreach(var item in list)
+            try
             {
-                RatesHeader header = new RatesHeader
+                ratesGrid.Items.Clear();
+                EmpireBoxingEntities db = new EmpireBoxingEntities();
+                var list = db.SESSION_RATE.OrderBy(r => r.CATEGORY).ToList();
+                foreach (var item in list)
                 {
-                    SessionName = item.SRVC_NAME,
-                    SessionRate = item.RATE.ToString(),
-                    Category = item.CATEGORY
-                };
-                ratesGrid.Items.Add(header);
+                    RatesHeader header = new RatesHeader
+                    {
+                        SessionName = item.SRVC_NAME,
+                        SessionRate = item.RATE.ToString(),
+                        Category = item.CATEGORY
+                    };
+                    ratesGrid.Items.Add(header);
+                }
+            }
+            catch(Exception error)
+            {
+                MessageBox.Show(error.Message, "Error");
             }
         }
 
         private void btnEdit_Click(object sender, RoutedEventArgs e)
         {
-            RatesHeader header = (RatesHeader)ratesGrid.SelectedItem;
-            if (header != null)
+            try
             {
-                OpenRates form = new OpenRates(header.SessionName.ToString());
-                form.ShowDialog();
-                GetRateList();
+                RatesHeader header = (RatesHeader)ratesGrid.SelectedItem;
+                if (header != null)
+                {
+                    OpenRates form = new OpenRates(header.SessionName.ToString());
+                    form.ShowDialog();
+                    GetRateList();
+                }
+                else
+                    MessageBox.Show("Please select item", "Error");
             }
-            else
-                MessageBox.Show("Please select item", "Error");
+            catch(Exception error)
+            {
+                MessageBox.Show(error.Message, "Error");
+            }
         }
 
         private void ratesGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)

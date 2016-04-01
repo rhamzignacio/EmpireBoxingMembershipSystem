@@ -82,35 +82,42 @@ namespace EmpireBoxingMembershipSystem.History
 
         private void GetPaymentHistory(DateTime? FromDate = null, DateTime? ToDate = null)
         {
-            using(var db = new EmpireBoxingEntities())
+            try
             {
-                dataGridPayment.Items.Clear();
-
-                var payments = db.PAYMENT_HISTORY.AsQueryable();
-
-                if (FromDate != null && ToDate != null)
-                    payments = payments.Where(r => r.CRT_DATE >= FromDate && r.CRT_DATE <= ToDate);
-
-                payments.OrderByDescending(r=>r.CRT_DATE).ToList().ForEach(item =>
+                using (var db = new EmpireBoxingEntities())
                 {
-                    var client = db.CLIENT_PROFILE.FirstOrDefault(r => r.CLT_ID == item.CLT_ID);
-                    if (client != null)
-                    {
-                        var sess = db.SESSION_RATE.FirstOrDefault(r => r.SRVC_CODE == item.SESSION_CODE);
+                    dataGridPayment.Items.Clear();
 
-                        PaymentGrid payment = new PaymentGrid
-                        {
-                            ClientName = client.FIRST_NAME + " " + client.MIDDLE_INITIAL + " " + client.LAST_NAME,
-                            Method = item.METHOD,
-                            Amount = string.Format("{0:0.00}", item.AMOUNT),
-                            Session = sess.SRVC_NAME,
-                            CreatedDate = item.CRT_DATE.ToString(),
-                            CreatedBy = item.CRT_BY != null ? item.CRT_BY : ""
-                        };
+                    var payments = db.PAYMENT_HISTORY.AsQueryable();
 
-                        dataGridPayment.Items.Add(payment);
-                    }
-                });
+                    if (FromDate != null && ToDate != null)
+                        payments = payments.Where(r => r.CRT_DATE >= FromDate && r.CRT_DATE <= ToDate);
+
+                    payments.OrderByDescending(r => r.CRT_DATE).ToList().ForEach(item =>
+                      {
+                          var client = db.CLIENT_PROFILE.FirstOrDefault(r => r.CLT_ID == item.CLT_ID);
+                          if (client != null)
+                          {
+                              var sess = db.SESSION_RATE.FirstOrDefault(r => r.SRVC_CODE == item.SESSION_CODE);
+
+                              PaymentGrid payment = new PaymentGrid
+                              {
+                                  ClientName = client.FIRST_NAME + " " + client.MIDDLE_INITIAL + " " + client.LAST_NAME,
+                                  Method = item.METHOD,
+                                  Amount = string.Format("{0:0.00}", item.AMOUNT),
+                                  Session = sess.SRVC_NAME,
+                                  CreatedDate = item.CRT_DATE.ToString(),
+                                  CreatedBy = item.CRT_BY != null ? item.CRT_BY : ""
+                              };
+
+                              dataGridPayment.Items.Add(payment);
+                          }
+                      });
+                }
+            }
+            catch(Exception error)
+            {
+                MessageBox.Show(error.Message, "Error");
             }
         }
 

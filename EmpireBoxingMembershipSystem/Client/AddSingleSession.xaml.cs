@@ -48,48 +48,106 @@ namespace EmpireBoxingMembershipSystem.Client
 
         private void TimeIn(string serviceCode)
         {
-            EmpireBoxingEntities db = new EmpireBoxingEntities();
-            TIME_RECORD record = new TIME_RECORD
+            try
             {
-                CLT_CODE = cltID,
-                TIME_IN = DateTime.Now,
-                SRVC_CODE = serviceCode,
-                CRT_BY = user
-            };
-            db.Entry(record).State = EntityState.Added;
-            db.SaveChanges();
+                EmpireBoxingEntities db = new EmpireBoxingEntities();
+                TIME_RECORD record = new TIME_RECORD
+                {
+                    CLT_CODE = cltID,
+                    TIME_IN = DateTime.Now,
+                    SRVC_CODE = serviceCode,
+                    CRT_BY = user
+                };
+                db.Entry(record).State = EntityState.Added;
+                db.SaveChanges();
+            }
+            catch(Exception error)
+            {
+                MessageBox.Show(error.Message, "Error");
+            }
+
         }
 
         public void GetSessionDropDown(string type)
         {
-            cmbBoxSession.Items.Clear();
-            EmpireBoxingEntities db = new EmpireBoxingEntities();
-            string temp = "";
-            if (type == "Cash" || type == "Free")
-                temp = "S";        
-            else
-                temp = "D";
+            try
+            {
+                cmbBoxSession.Items.Clear();
+                EmpireBoxingEntities db = new EmpireBoxingEntities();
+                string temp = "";
+                if (type == "Cash" || type == "Free")
+                    temp = "S";
+                else
+                    temp = "D";
 
-            if (member == "Child")
-            {
-                temp = "C";
-                member = "";
-            }
-            else if (member == "Kids")
-            {
-                temp = "K";
-                member = "";
-            }
-
-            if (member == "")
-            {
-                var session = db.SESSION_RATE.Where(r => r.TYPE == temp).ToList();
-                foreach (var item in session)
+                if (member == "Child")
                 {
-                    if (item.SRVC_NAME.Contains("Member "))
+                    temp = "C";
+                    member = "";
+                }
+                else if (member == "Kids")
+                {
+                    temp = "K";
+                    member = "";
+                }
+
+                if (member == "")
+                {
+                    var session = db.SESSION_RATE.Where(r => r.TYPE == temp).ToList();
+                    foreach (var item in session)
                     {
+                        if (item.SRVC_NAME.Contains("Member "))
+                        {
+                        }
+                        else
+                        {
+                            ComboBoxItem cbxItem = new ComboBoxItem
+                            {
+                                Tag = item.SRVC_CODE,
+                                Content = item.SRVC_NAME
+                            };
+                            cmbBoxSession.Items.Add(cbxItem);
+                        }
                     }
-                    else
+                }
+                else
+                {
+                    var ifGroup = db.GROUP_CORPORATE_MEMBERS.Where(r => r.CLT_ID == cltID);
+
+                    var sessionMember = db.SESSION_RATE.Where(r => r.SRVC_NAME.Contains("Member "));
+
+                    var sessionList = sessionMember.ToList();
+
+                    foreach (var item in sessionList)
+                    {
+                        ComboBoxItem cbxItem = new ComboBoxItem
+                        {
+                            Tag = item.SRVC_CODE,
+                            Content = item.SRVC_NAME
+                        };
+                        cmbBoxSession.Items.Add(cbxItem);
+                    }
+
+                    //Add Corporate Session Rate
+                    if (ifGroup.ToList().Count > 0)
+                    {
+                        var sessionGroup = db.SESSION_RATE.Where(r => r.SRVC_CODE.Contains("GC") && !r.SRVC_NAME.Contains("Pack"));
+
+                        foreach (var item in sessionGroup)
+                        {
+                            ComboBoxItem cbxItem = new ComboBoxItem
+                            {
+                                Tag = item.SRVC_CODE,
+                                Content = item.SRVC_NAME
+                            };
+                            cmbBoxSession.Items.Add(cbxItem);
+                        }
+                    }
+
+                    //Add Unlimited Session
+                    var unlimited = db.SESSION_RATE.Where(r => r.SRVC_NAME.ToLower().Contains("unlimited"));
+
+                    foreach (var item in unlimited)
                     {
                         ComboBoxItem cbxItem = new ComboBoxItem
                         {
@@ -100,52 +158,9 @@ namespace EmpireBoxingMembershipSystem.Client
                     }
                 }
             }
-            else
+            catch(Exception error)
             {
-                var ifGroup = db.GROUP_CORPORATE_MEMBERS.Where(r => r.CLT_ID == cltID);
-
-                var sessionMember = db.SESSION_RATE.Where(r => r.SRVC_NAME.Contains("Member "));                            
-
-                var sessionList = sessionMember.ToList();
-
-                foreach (var item in sessionList)
-                {
-                    ComboBoxItem cbxItem = new ComboBoxItem
-                    {
-                        Tag = item.SRVC_CODE,
-                        Content = item.SRVC_NAME
-                    };
-                    cmbBoxSession.Items.Add(cbxItem);
-                }
-
-                //Add Corporate Session Rate
-                if (ifGroup.ToList().Count > 0)
-                {
-                    var sessionGroup = db.SESSION_RATE.Where(r => r.SRVC_CODE.Contains("GC") && !r.SRVC_NAME.Contains("Pack"));
-
-                    foreach (var item in sessionGroup)
-                    {
-                        ComboBoxItem cbxItem = new ComboBoxItem
-                        {
-                            Tag = item.SRVC_CODE,
-                            Content = item.SRVC_NAME
-                        };
-                        cmbBoxSession.Items.Add(cbxItem);
-                    }
-                }
-
-                //Add Unlimited Session
-                var unlimited = db.SESSION_RATE.Where(r => r.SRVC_NAME.ToLower().Contains("unlimited"));
-
-                foreach (var item in unlimited)
-                {
-                    ComboBoxItem cbxItem = new ComboBoxItem
-                    {
-                        Tag = item.SRVC_CODE,
-                        Content = item.SRVC_NAME
-                    };
-                    cmbBoxSession.Items.Add(cbxItem);
-                }
+                MessageBox.Show(error.Message, "Error");
             }
         }
 
@@ -168,37 +183,13 @@ namespace EmpireBoxingMembershipSystem.Client
 
         private void btnOkay_Click(object sender, RoutedEventArgs e)
         {
-            EmpireBoxingEntities db = new EmpireBoxingEntities();
-
-            PAYMENT_HISTORY payment = new PAYMENT_HISTORY();
-
-            if (ifUnlimited)
+            try
             {
-                payment = new PAYMENT_HISTORY
-                {
-                    METHOD = "Cash",
-                    AMOUNT = decimal.Parse(txtBoxPrice.Text),
-                    SESSION_CODE = ((ComboBoxItem)cmbBoxSession.SelectedItem).Tag.ToString(),
-                    CRT_DATE = DateTime.Now,
-                    CLT_ID = cltID
-                };
+                EmpireBoxingEntities db = new EmpireBoxingEntities();
 
-                var clientProfile = db.CLIENT_PROFILE.FirstOrDefault(r => r.CLT_ID == cltID);
+                PAYMENT_HISTORY payment = new PAYMENT_HISTORY();
 
-                var days = db.SESSION_RATE.FirstOrDefault(r => r.SRVC_CODE 
-                    == ((ComboBoxItem)cmbBoxSession.SelectedItem).Tag.ToString());
-
-                clientProfile.UNLIMITED_EXPIRY = DateTime.Now.AddDays(double.Parse(days.VALID_DAYS.ToString()));
-
-                clientProfile.UNLIMITED_SRVC = ((ComboBoxItem)cmbBoxSession.SelectedItem).Tag.ToString();
-
-                db.Entry(clientProfile).State = EntityState.Modified;
-
-                db.SaveChanges();
-            }
-            else
-            {
-                if (type == "Cash")
+                if (ifUnlimited)
                 {
                     payment = new PAYMENT_HISTORY
                     {
@@ -208,28 +199,59 @@ namespace EmpireBoxingMembershipSystem.Client
                         CRT_DATE = DateTime.Now,
                         CLT_ID = cltID
                     };
+
+                    var clientProfile = db.CLIENT_PROFILE.FirstOrDefault(r => r.CLT_ID == cltID);
+
+                    var days = db.SESSION_RATE.FirstOrDefault(r => r.SRVC_CODE
+                        == ((ComboBoxItem)cmbBoxSession.SelectedItem).Tag.ToString());
+
+                    clientProfile.UNLIMITED_EXPIRY = DateTime.Now.AddDays(double.Parse(days.VALID_DAYS.ToString()));
+
+                    clientProfile.UNLIMITED_SRVC = ((ComboBoxItem)cmbBoxSession.SelectedItem).Tag.ToString();
+
+                    db.Entry(clientProfile).State = EntityState.Modified;
+
+                    db.SaveChanges();
                 }
-                else if (type == "Free")
+                else
                 {
-                    payment = new PAYMENT_HISTORY
+                    if (type == "Cash")
                     {
-                        METHOD = "Free",
-                        AMOUNT = 0,
-                        SESSION_CODE = ((ComboBoxItem)cmbBoxSession.SelectedItem).Tag.ToString(),
-                        CRT_DATE = DateTime.Now,
-                        CLT_ID = cltID
-                    };
+                        payment = new PAYMENT_HISTORY
+                        {
+                            METHOD = "Cash",
+                            AMOUNT = decimal.Parse(txtBoxPrice.Text),
+                            SESSION_CODE = ((ComboBoxItem)cmbBoxSession.SelectedItem).Tag.ToString(),
+                            CRT_DATE = DateTime.Now,
+                            CLT_ID = cltID
+                        };
+                    }
+                    else if (type == "Free")
+                    {
+                        payment = new PAYMENT_HISTORY
+                        {
+                            METHOD = "Free",
+                            AMOUNT = 0,
+                            SESSION_CODE = ((ComboBoxItem)cmbBoxSession.SelectedItem).Tag.ToString(),
+                            CRT_DATE = DateTime.Now,
+                            CLT_ID = cltID
+                        };
+                    }
                 }
+
+                db.Entry(payment).State = EntityState.Added;
+
+                db.SaveChanges();
+                MessageBox.Show("Session: " + ((ComboBoxItem)cmbBoxSession.SelectedItem).Content.ToString() + "\nPrice: " + txtBoxPrice.Text, "Saved");
+
+                TimeIn(((ComboBoxItem)cmbBoxSession.SelectedItem).Tag.ToString());
+
+                this.Close();
             }
-
-            db.Entry(payment).State = EntityState.Added;
-
-            db.SaveChanges();
-            MessageBox.Show("Session: " + ((ComboBoxItem)cmbBoxSession.SelectedItem).Content.ToString() + "\nPrice: " + txtBoxPrice.Text, "Saved");
-
-            TimeIn(((ComboBoxItem)cmbBoxSession.SelectedItem).Tag.ToString());
-
-            this.Close();
+            catch (Exception error)
+            {
+                MessageBox.Show(error.Message, "Error");
+            }
         }
 
         private void txtBoxPrice_TextChanged(object sender, TextChangedEventArgs e)

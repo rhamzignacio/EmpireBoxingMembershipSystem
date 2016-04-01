@@ -72,23 +72,37 @@ namespace EmpireBoxingMembershipSystem.Client
 
         private void GetPackageDropdown()
         {
-            EmpireBoxingEntities db = new EmpireBoxingEntities();
-
-            cmbBoxPackage.Items.Clear();
-
-            var ifGroup = db.GROUP_CORPORATE_MEMBERS.Where(r => r.CLT_ID == cltID);
-
-            var package = db.SESSION_RATE.Where(r => r.TYPE == "P");
-
-           
-
-            var listPackage = package.ToList();
-
-            if (ifGroup.ToList().Count > 0)
+            try
             {
-                var group = db.SESSION_RATE.Where(r => r.SRVC_CODE.Contains("GC") && r.SRVC_NAME.Contains("Pack")).ToList();
+                EmpireBoxingEntities db = new EmpireBoxingEntities();
 
-                foreach (var item in group)
+                cmbBoxPackage.Items.Clear();
+
+                var ifGroup = db.GROUP_CORPORATE_MEMBERS.Where(r => r.CLT_ID == cltID);
+
+                var package = db.SESSION_RATE.Where(r => r.TYPE == "P");
+
+
+
+                var listPackage = package.ToList();
+
+                if (ifGroup.ToList().Count > 0)
+                {
+                    var group = db.SESSION_RATE.Where(r => r.SRVC_CODE.Contains("GC") && r.SRVC_NAME.Contains("Pack")).ToList();
+
+                    foreach (var item in group)
+                    {
+                        ComboBoxItem cbxItem = new ComboBoxItem
+                        {
+                            Tag = item.SRVC_CODE,
+                            Content = item.SRVC_NAME
+                        };
+
+                        cmbBoxPackage.Items.Add(cbxItem);
+                    }
+                }
+
+                foreach (var item in listPackage)
                 {
                     ComboBoxItem cbxItem = new ComboBoxItem
                     {
@@ -99,18 +113,10 @@ namespace EmpireBoxingMembershipSystem.Client
                     cmbBoxPackage.Items.Add(cbxItem);
                 }
             }
-
-            foreach (var item in listPackage)
+            catch(Exception error)
             {
-                ComboBoxItem cbxItem = new ComboBoxItem
-                {
-                    Tag = item.SRVC_CODE,
-                    Content = item.SRVC_NAME
-                };
-
-                cmbBoxPackage.Items.Add(cbxItem);
+                MessageBox.Show(error.Message, "Error");
             }
-
             
         }
 
@@ -133,145 +139,152 @@ namespace EmpireBoxingMembershipSystem.Client
 
         private void button_Click(object sender, RoutedEventArgs e) //Save Button
         {
-            string errMessage = "";
-
-            if (expirationDate.Text == "")
-                errMessage += "Expiration Date is Required";
-
-            if (errMessage == "")
+            try
             {
-                int tempBasscon = 0, tempBoxing = 0, tempMMA = 0, tempMuayThai = 0;
+                string errMessage = "";
 
-                try
+                if (expirationDate.Text == "")
+                    errMessage += "Expiration Date is Required";
+
+                if (errMessage == "")
                 {
-                    tempBasscon = int.Parse(txtBoxBasscon.Text);
+                    int tempBasscon = 0, tempBoxing = 0, tempMMA = 0, tempMuayThai = 0;
 
-                    tempBoxing = int.Parse(txtBoxBoxing.Text);
-
-                    tempMMA = int.Parse(txtBoxMma.Text);
-
-                    tempMuayThai = int.Parse(txtBoxMuayThai.Text);
-
-                }
-                catch
-                {
-                    if (tempBasscon == 0)
-                        txtBoxBasscon.Text = "0";
-
-                    if (tempBoxing == 0)
-                        txtBoxBoxing.Text = "0";
-
-                    if (tempMMA == 0)
-                        txtBoxMma.Text = "0";
-
-                    if (tempMuayThai == 0)
-                        txtBoxMuayThai.Text = "0";
-                }
-                string message = "";
-                EmpireBoxingEntities db = new EmpireBoxingEntities();
-                var client = db.CLIENT_PROFILE.FirstOrDefault(r => r.CLT_ID == cltID);
-                if (((ComboBoxItem)cmbBoxPackage.SelectedItem).Tag.ToString() == "CUSTOM") //Custom Package
-                {
-                    //Update Client Profile
-                    client.BOXING += int.Parse(txtBoxBoxing.Text);
-
-                    client.MUAY_THAI += int.Parse(txtBoxMuayThai.Text);
-
-                    client.MMA += int.Parse(txtBoxMma.Text);
-
-                    client.BASSCON += int.Parse(txtBoxBasscon.Text);
-
-                    message = "Boxing: " + txtBoxBoxing.Text +
-                        "\nMuay Thai: " + txtBoxMuayThai.Text +
-                        "\nMMA: " + txtBoxMma.Text +
-                        "\nB@sscon: " + txtBoxBasscon.Text;
-                }
-                else if (((ComboBoxItem)cmbBoxPackage.SelectedItem).Tag.ToString() == "FREE") //Free Package
-                {
-                    //Update Client Profile
-                    client.FREE_BOXING += int.Parse(txtBoxBoxing.Text);
-
-                    client.FREE_MUAY_THAI += int.Parse(txtBoxMuayThai.Text);
-
-                    client.FREE_MMA += int.Parse(txtBoxMma.Text);
-
-                    client.FREE_BASSCON += int.Parse(txtBoxBasscon.Text);
-
-                    message = "Boxing: " + txtBoxBoxing.Text +
-                        "\nMuay Thai: " + txtBoxMuayThai.Text +
-                        "\nMMA: " + txtBoxMma.Text +
-                        "\nB@sscon: " + txtBoxBasscon.Text;
-
-                    //Add Expiration Date
-                    client.FREE_SESSION_EXPIRY = DateTime.Parse(expirationDate.Text);
-                }
-                else //Fixed Package
-                {
-                    switch (((ComboBoxItem)cmbBoxPackage.SelectedItem).Tag.ToString())
+                    try
                     {
-                        case "10PBASSCON":
-                            client.BASSCON += 10;
-                            break;
-                        case "10PMMA":
-                            client.MMA += 10;
-                            break;
-                        case "12PBOXING":
-                            client.BOXING += 12;
-                            break;
-                        case "12MUAYTHAI":
-                            client.MUAY_THAI += 12;
-                            break;
-                        case "3PBOXING":
-                            client.BOXING += 3;
-                            break;
-                        case "3PMUAYTHAI":
-                            client.MUAY_THAI += 3;
-                            break;
-                            //Group Rate
-                        case "GC10PBASSCON" :
-                            client.BASSCON += 10;
-                            break;
+                        tempBasscon = int.Parse(txtBoxBasscon.Text);
 
-                        case "GC10PMMA":
-                            client.MMA += 10;
-                            break;
+                        tempBoxing = int.Parse(txtBoxBoxing.Text);
 
-                        case "GC12PBOXING":
-                            client.BOXING += 12;
-                            break;
+                        tempMMA = int.Parse(txtBoxMma.Text);
 
-                        case "GC12PMUAYTHAI":
-                            client.MUAY_THAI += 12;
-                            break;
+                        tempMuayThai = int.Parse(txtBoxMuayThai.Text);
+
                     }
-                    message = ((ComboBoxItem)cmbBoxPackage.SelectedItem).Content.ToString();
+                    catch
+                    {
+                        if (tempBasscon == 0)
+                            txtBoxBasscon.Text = "0";
+
+                        if (tempBoxing == 0)
+                            txtBoxBoxing.Text = "0";
+
+                        if (tempMMA == 0)
+                            txtBoxMma.Text = "0";
+
+                        if (tempMuayThai == 0)
+                            txtBoxMuayThai.Text = "0";
+                    }
+                    string message = "";
+                    EmpireBoxingEntities db = new EmpireBoxingEntities();
+                    var client = db.CLIENT_PROFILE.FirstOrDefault(r => r.CLT_ID == cltID);
+                    if (((ComboBoxItem)cmbBoxPackage.SelectedItem).Tag.ToString() == "CUSTOM") //Custom Package
+                    {
+                        //Update Client Profile
+                        client.BOXING += int.Parse(txtBoxBoxing.Text);
+
+                        client.MUAY_THAI += int.Parse(txtBoxMuayThai.Text);
+
+                        client.MMA += int.Parse(txtBoxMma.Text);
+
+                        client.BASSCON += int.Parse(txtBoxBasscon.Text);
+
+                        message = "Boxing: " + txtBoxBoxing.Text +
+                            "\nMuay Thai: " + txtBoxMuayThai.Text +
+                            "\nMMA: " + txtBoxMma.Text +
+                            "\nB@sscon: " + txtBoxBasscon.Text;
+                    }
+                    else if (((ComboBoxItem)cmbBoxPackage.SelectedItem).Tag.ToString() == "FREE") //Free Package
+                    {
+                        //Update Client Profile
+                        client.FREE_BOXING += int.Parse(txtBoxBoxing.Text);
+
+                        client.FREE_MUAY_THAI += int.Parse(txtBoxMuayThai.Text);
+
+                        client.FREE_MMA += int.Parse(txtBoxMma.Text);
+
+                        client.FREE_BASSCON += int.Parse(txtBoxBasscon.Text);
+
+                        message = "Boxing: " + txtBoxBoxing.Text +
+                            "\nMuay Thai: " + txtBoxMuayThai.Text +
+                            "\nMMA: " + txtBoxMma.Text +
+                            "\nB@sscon: " + txtBoxBasscon.Text;
+
+                        //Add Expiration Date
+                        client.FREE_SESSION_EXPIRY = DateTime.Parse(expirationDate.Text);
+                    }
+                    else //Fixed Package
+                    {
+                        switch (((ComboBoxItem)cmbBoxPackage.SelectedItem).Tag.ToString())
+                        {
+                            case "10PBASSCON":
+                                client.BASSCON += 10;
+                                break;
+                            case "10PMMA":
+                                client.MMA += 10;
+                                break;
+                            case "12PBOXING":
+                                client.BOXING += 12;
+                                break;
+                            case "12MUAYTHAI":
+                                client.MUAY_THAI += 12;
+                                break;
+                            case "3PBOXING":
+                                client.BOXING += 3;
+                                break;
+                            case "3PMUAYTHAI":
+                                client.MUAY_THAI += 3;
+                                break;
+                            //Group Rate
+                            case "GC10PBASSCON":
+                                client.BASSCON += 10;
+                                break;
+
+                            case "GC10PMMA":
+                                client.MMA += 10;
+                                break;
+
+                            case "GC12PBOXING":
+                                client.BOXING += 12;
+                                break;
+
+                            case "GC12PMUAYTHAI":
+                                client.MUAY_THAI += 12;
+                                break;
+                        }
+                        message = ((ComboBoxItem)cmbBoxPackage.SelectedItem).Content.ToString();
+                    }
+                    client.SESSION_EXPIRY = DateTime.Parse(expirationDate.Text);
+                    //Add Payment Transaction
+                    PAYMENT_HISTORY payment = new PAYMENT_HISTORY
+                    {
+                        CLT_ID = cltID,
+                        METHOD = "CASH",
+                        AMOUNT = decimal.Parse(txtBoxPrice.Text),
+                        SESSION_CODE = ((ComboBoxItem)cmbBoxPackage.SelectedItem).Tag.ToString(),
+                        CRT_DATE = DateTime.Now
+                    };
+                    db.Entry(payment).State = EntityState.Added;
+                    try
+                    {
+                        db.SaveChanges();
+                        message += "\n\nPrice: " + txtBoxPrice.Text;
+                        MessageBox.Show(message, "Saved");
+                        this.Close();
+                    }
+                    catch (Exception er)
+                    {
+                        MessageBox.Show(er.Message, "Error on Saving");
+                    }
                 }
-                client.SESSION_EXPIRY = DateTime.Parse(expirationDate.Text);
-                //Add Payment Transaction
-                PAYMENT_HISTORY payment = new PAYMENT_HISTORY
+                else
                 {
-                    CLT_ID = cltID,
-                    METHOD = "CASH",
-                    AMOUNT = decimal.Parse(txtBoxPrice.Text),
-                    SESSION_CODE = ((ComboBoxItem)cmbBoxPackage.SelectedItem).Tag.ToString(),
-                    CRT_DATE = DateTime.Now
-                };
-                db.Entry(payment).State = EntityState.Added;
-                try
-                {
-                    db.SaveChanges();
-                    message += "\n\nPrice: " + txtBoxPrice.Text;
-                    MessageBox.Show(message, "Saved");
-                    this.Close();
-                }
-                catch (Exception er)
-                {
-                    MessageBox.Show(er.Message, "Error on Saving");
+                    MessageBox.Show(errMessage, "Error on Saving");
                 }
             }
-            else
+            catch(Exception error)
             {
-                MessageBox.Show(errMessage, "Error on Saving");
+                MessageBox.Show(error.Message, "Error");
             }
         }
 

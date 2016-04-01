@@ -66,31 +66,38 @@ namespace EmpireBoxingMembershipSystem.History
 
         private void GetSessionHistory(DateTime? fromDate = null, DateTime? toDate = null)
         {
-            using (var db = new EmpireBoxingEntities())
+            try
             {
-                dataGridSession.Items.Clear(); //Clear data in the list
-
-                var session = db.SESSION_USED_HISTORY.AsQueryable();
-
-                if (fromDate != null && toDate != null)
-                    session = session.Where(r => r.CRT_DATE >= fromDate && r.CRT_DATE <= toDate);
-
-                session.OrderByDescending(r => r.CRT_DATE).ToList().ForEach(item =>
+                using (var db = new EmpireBoxingEntities())
                 {
-                    var client = db.CLIENT_PROFILE.FirstOrDefault(r => r.CLT_ID == item.CLT_ID);
-                    if (client != null)
-                    {
-                        SessionGrid grid = new SessionGrid
-                        {
-                            ClientName = client.FIRST_NAME + " " + client.MIDDLE_INITIAL + " " + client.LAST_NAME,
-                            Service = item.SRVC_CODE,
-                            CreatedBy = item.CRT_BY != null ? item.CRT_BY : "",
-                            CreatedDate = item.CRT_DATE.ToString()
-                        };
+                    dataGridSession.Items.Clear(); //Clear data in the list
 
-                        dataGridSession.Items.Add(grid);
-                    }
-                });
+                    var session = db.SESSION_USED_HISTORY.AsQueryable();
+
+                    if (fromDate != null && toDate != null)
+                        session = session.Where(r => r.CRT_DATE >= fromDate && r.CRT_DATE <= toDate);
+
+                    session.OrderByDescending(r => r.CRT_DATE).ToList().ForEach(item =>
+                    {
+                        var client = db.CLIENT_PROFILE.FirstOrDefault(r => r.CLT_ID == item.CLT_ID);
+                        if (client != null)
+                        {
+                            SessionGrid grid = new SessionGrid
+                            {
+                                ClientName = client.FIRST_NAME + " " + client.MIDDLE_INITIAL + " " + client.LAST_NAME,
+                                Service = item.SRVC_CODE,
+                                CreatedBy = item.CRT_BY != null ? item.CRT_BY : "",
+                                CreatedDate = item.CRT_DATE.ToString()
+                            };
+
+                            dataGridSession.Items.Add(grid);
+                        }
+                    });
+                }
+            }
+            catch(Exception error)
+            {
+                MessageBox.Show(error.Message, "Error");
             }
         }
 

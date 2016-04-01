@@ -71,23 +71,30 @@ namespace EmpireBoxingMembershipSystem.Setup.User
 
         private void GetAllUser()
         {
-            dataGridUser.Items.Clear(); //Remove all item in Data Grid
-
-            EmpireBoxingEntities db = new EmpireBoxingEntities();
-
-            var userList = db.USER_ACCOUNT.OrderBy(r => r.USERNAME).ToList();
-
-            foreach (var item in userList)
+            try
             {
-                UserHeader header = new UserHeader
-                {
-                    ACCESS_LVL = item.ACCESS_LVL,
-                    USERNAME = item.USERNAME,
-                    FIRST_NAME = item.FIRST_NAME,
-                    LAST_NAME = item.LAST_NAME
-                };
+                dataGridUser.Items.Clear(); //Remove all item in Data Grid
 
-                dataGridUser.Items.Add(header);
+                EmpireBoxingEntities db = new EmpireBoxingEntities();
+
+                var userList = db.USER_ACCOUNT.OrderBy(r => r.USERNAME).ToList();
+
+                foreach (var item in userList)
+                {
+                    UserHeader header = new UserHeader
+                    {
+                        ACCESS_LVL = item.ACCESS_LVL,
+                        USERNAME = item.USERNAME,
+                        FIRST_NAME = item.FIRST_NAME,
+                        LAST_NAME = item.LAST_NAME
+                    };
+
+                    dataGridUser.Items.Add(header);
+                }
+            }
+            catch(Exception error)
+            {
+                MessageBox.Show(error.Message, "Error");
             }
         }
 

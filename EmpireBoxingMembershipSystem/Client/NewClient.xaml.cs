@@ -45,108 +45,129 @@ namespace EmpireBoxingMembershipSystem.Client
 
         private void GetExistingData()
         {
-            db = new EmpireBoxingEntities();
+            try
+            {
+                db = new EmpireBoxingEntities();
 
-            var cltInfo = db.CLIENT_PROFILE.FirstOrDefault(r => r.CLT_ID == cltID);
+                var cltInfo = db.CLIENT_PROFILE.FirstOrDefault(r => r.CLT_ID == cltID);
 
-            txtBoxAddress.Text = cltInfo.ADDRESS;
+                txtBoxAddress.Text = cltInfo.ADDRESS;
 
-            txtBoxAge.Text = cltInfo.AGE;
+                txtBoxAge.Text = cltInfo.AGE;
 
-            txtBoxBassconRate.Text = cltInfo.BASSCON_RATE.ToString();
+                txtBoxBassconRate.Text = cltInfo.BASSCON_RATE.ToString();
 
-            txtBoxBoxingRate.Text = cltInfo.BOXING_RATE.ToString();
+                txtBoxBoxingRate.Text = cltInfo.BOXING_RATE.ToString();
 
-            txtBoxContactNo.Text = cltInfo.CONTACT_NO;
+                txtBoxContactNo.Text = cltInfo.CONTACT_NO;
 
-            txtBoxEmail.Text = cltInfo.EMAIL;
+                txtBoxEmail.Text = cltInfo.EMAIL;
 
-            txtBoxFirstName.Text = cltInfo.FIRST_NAME;
+                txtBoxFirstName.Text = cltInfo.FIRST_NAME;
 
-            txtBoxLastName.Text = cltInfo.LAST_NAME;
+                txtBoxLastName.Text = cltInfo.LAST_NAME;
 
-            txtBoxMedHistory.Text = cltInfo.MED_RECORD;
+                txtBoxMedHistory.Text = cltInfo.MED_RECORD;
 
-            txtBoxMiddleInitial.Text = cltInfo.MIDDLE_INITIAL;
+                txtBoxMiddleInitial.Text = cltInfo.MIDDLE_INITIAL;
 
-            txtBoxMma.Text = cltInfo.MMA_RATE.ToString();
+                txtBoxMma.Text = cltInfo.MMA_RATE.ToString();
 
-            txtBoxMuayThaiRate.Text = cltInfo.MUAY_THAI_RATE.ToString();
+                txtBoxMuayThaiRate.Text = cltInfo.MUAY_THAI_RATE.ToString();
 
-            cmbBoxGender.Text = cltInfo.GENDER;
+                cmbBoxGender.Text = cltInfo.GENDER;
 
-            var temp = "";
+                var temp = "";
 
-            if (cltInfo.TYPE == "O")
-                temp = "Ordinary";
-            else
-                temp = "Student / Senior Citizen / PWDs";
+                if (cltInfo.TYPE == "O")
+                    temp = "Ordinary";
+                else
+                    temp = "Student / Senior Citizen / PWDs";
 
-            cmbBoxType.Text = temp;
+                cmbBoxType.Text = temp;
 
-            datePickerMembershipDate.Text = cltInfo.MEMBERSHIP_DATE.ToString();
+                datePickerMembershipDate.Text = cltInfo.MEMBERSHIP_DATE.ToString();
 
-            datePickerMembershipExpiry.Text = cltInfo.EXPIRATION_DATE.ToString();
+                datePickerMembershipExpiry.Text = cltInfo.EXPIRATION_DATE.ToString();
+            }
+            catch(Exception error)
+            {
+                MessageBox.Show(error.Message, "Error");
+            }
         }
 
         private void LoadDropDownData()
         {
-            //Gender
-            ComboBoxItem cmbItem = new ComboBoxItem
+            try
             {
-                Tag = "Male",
-                Content = "Male"
-            };
-            cmbBoxGender.Items.Add(cmbItem);
+                //Gender
+                ComboBoxItem cmbItem = new ComboBoxItem
+                {
+                    Tag = "Male",
+                    Content = "Male"
+                };
+                cmbBoxGender.Items.Add(cmbItem);
 
-            cmbItem = new ComboBoxItem
+                cmbItem = new ComboBoxItem
+                {
+                    Tag = "Female",
+                    Content = "Female"
+                };
+                cmbBoxGender.Items.Add(cmbItem);
+
+                //Type
+                cmbItem = new ComboBoxItem
+                {
+                    Tag = "O",
+                    Content = "Ordinary"
+                };
+                cmbBoxType.Items.Add(cmbItem);
+
+                cmbItem = new ComboBoxItem
+                {
+                    Tag = "S",
+                    Content = "Student / Senior Citizen / PWDs"
+                };
+                cmbBoxType.Items.Add(cmbItem);
+            }
+            catch(Exception error)
             {
-                Tag = "Female",
-                Content = "Female"
-            };
-            cmbBoxGender.Items.Add(cmbItem);
-
-            //Type
-            cmbItem = new ComboBoxItem
-            {
-                Tag = "O",
-                Content = "Ordinary"
-            };
-            cmbBoxType.Items.Add(cmbItem);
-
-            cmbItem = new ComboBoxItem
-            {
-                Tag = "S",
-                Content = "Student / Senior Citizen / PWDs"
-            };
-            cmbBoxType.Items.Add(cmbItem);
-
+                MessageBox.Show(error.Message, "Error");
+            }
         }
 
         private string GetCltID()
         {
-            string id = "";
+            try
+            {
+                string id = "";
 
-            string year = DateTime.Now.Year.ToString();
+                string year = DateTime.Now.Year.ToString();
 
-            string month = DateTime.Now.Month.ToString();
+                string month = DateTime.Now.Month.ToString();
 
-            string day = DateTime.Now.Day.ToString();
+                string day = DateTime.Now.Day.ToString();
 
-            db = new EmpireBoxingEntities();
+                db = new EmpireBoxingEntities();
 
-            while (month.Length != 2)
-                month = "0" + month;
+                while (month.Length != 2)
+                    month = "0" + month;
 
-            var count = db.CLIENT_PROFILE.Where(r => r.CLT_ID.Contains(year + month + day)).ToList().Count + 1;
+                var count = db.CLIENT_PROFILE.Where(r => r.CLT_ID.Contains(year + month + day)).ToList().Count + 1;
 
-            string ctr = count.ToString();         
+                string ctr = count.ToString();
 
-            while (ctr.Length != 3)
-                ctr = "0" + ctr;
+                while (ctr.Length != 3)
+                    ctr = "0" + ctr;
 
-            id = year + month + day + ctr;
-            return id;
+                id = year + month + day + ctr;
+                return id;
+            }
+            catch(Exception error)
+            {
+                MessageBox.Show(error.Message, "Error");
+                return "";
+            }
         }
 
 
@@ -284,32 +305,39 @@ namespace EmpireBoxingMembershipSystem.Client
 
         private void btnUploadImage_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog fileDialog = new OpenFileDialog();
-            fileDialog.Multiselect = false;
-
-            string destinationFolder = @"c:\\EmpireMembershipPhotos";
-            if (!Directory.Exists(destinationFolder))
-                Directory.CreateDirectory(destinationFolder);
-
-            if ((bool)fileDialog.ShowDialog())
+            try
             {
-                if (fileDialog.OpenFile() != null)
-                {
-                    try
-                    {
-                        imageLoc = fileDialog.FileName;
+                OpenFileDialog fileDialog = new OpenFileDialog();
+                fileDialog.Multiselect = false;
 
-                        BitmapImage logo = new BitmapImage();
-                        logo.BeginInit();
-                        logo.UriSource = new Uri(imageLoc);
-                        logo.EndInit();
-                        image.Source = logo;
-                    }
-                    catch
+                string destinationFolder = @"c:\\EmpireMembershipPhotos";
+                if (!Directory.Exists(destinationFolder))
+                    Directory.CreateDirectory(destinationFolder);
+
+                if ((bool)fileDialog.ShowDialog())
+                {
+                    if (fileDialog.OpenFile() != null)
                     {
-                        MessageBox.Show("Can't load image", "Incorrect image format");
+                        try
+                        {
+                            imageLoc = fileDialog.FileName;
+
+                            BitmapImage logo = new BitmapImage();
+                            logo.BeginInit();
+                            logo.UriSource = new Uri(imageLoc);
+                            logo.EndInit();
+                            image.Source = logo;
+                        }
+                        catch
+                        {
+                            MessageBox.Show("Can't load image", "Incorrect image format");
+                        }
                     }
                 }
+            }
+            catch(Exception error)
+            {
+                MessageBox.Show(error.Message, "Error");
             }
         }
     }

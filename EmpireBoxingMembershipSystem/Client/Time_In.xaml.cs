@@ -31,23 +31,30 @@ namespace EmpireBoxingMembershipSystem.Client
 
         private void Logged()
         {
-            EmpireBoxingEntities db = new EmpireBoxingEntities();
-            var clt = db.CLIENT_PROFILE.Where(r => r.CLT_ID == txtBoxClientNo.Text);
-            if (clt.ToList().Count > 0)
+            try
             {
-                var temp = clt.FirstOrDefault(r => r.CLT_ID == txtBoxClientNo.Text);
-                if (temp.STATUS == "Y")//Active Client
+                EmpireBoxingEntities db = new EmpireBoxingEntities();
+                var clt = db.CLIENT_PROFILE.Where(r => r.CLT_ID == txtBoxClientNo.Text);
+                if (clt.ToList().Count > 0)
                 {
-                    ClientProfile form = new ClientProfile(temp.CLT_ID, user);
-                    form.Show();
-                    Close();
+                    var temp = clt.FirstOrDefault(r => r.CLT_ID == txtBoxClientNo.Text);
+                    if (temp.STATUS == "Y")//Active Client
+                    {
+                        ClientProfile form = new ClientProfile(temp.CLT_ID, user);
+                        form.Show();
+                        Close();
+                    }
+                    else //Inactive Client
+                        MessageBox.Show("Client is Inactive", "Error");
                 }
-                else //Inactive Client
-                    MessageBox.Show("Client is Inactive", "Error");
+                else
+                {
+                    MessageBox.Show("Invalid ID", "Error");
+                }
             }
-            else
+            catch(Exception error)
             {
-                MessageBox.Show("Invalid ID", "Error");
+                MessageBox.Show(error.Message, "Error");
             }
         }
 

@@ -41,3 +41,4 @@ version 2.1.2 = March 25, 2016
 version 2.2 = March 31, 2016
 	-Errors in cash Time_Record column (SRVC_CODE) should change 20 from 10
 	-Erros in showing Packs and Cash items if Corporate Account
+	-Added Try Catch block on Database request to avoid crashed if committed some errors

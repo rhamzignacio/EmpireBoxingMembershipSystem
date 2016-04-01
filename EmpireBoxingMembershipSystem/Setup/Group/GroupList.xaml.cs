@@ -47,20 +47,27 @@ namespace EmpireBoxingMembershipSystem.Setup.Group
 
         private void GetData()
         {
-            groupDataGrid.Items.Clear();
-
-            EmpireBoxingEntities db = new EmpireBoxingEntities();
-
-            var groupList = db.GROUP_CORPORATE_PROFILE.ToList();
-
-            foreach(var item in groupList)
+            try
             {
-                GroupNameClass header = new GroupNameClass
-                {
-                    GroupName = item.NAME
-                };
+                groupDataGrid.Items.Clear();
 
-                groupDataGrid.Items.Add(header);
+                EmpireBoxingEntities db = new EmpireBoxingEntities();
+
+                var groupList = db.GROUP_CORPORATE_PROFILE.ToList();
+
+                foreach (var item in groupList)
+                {
+                    GroupNameClass header = new GroupNameClass
+                    {
+                        GroupName = item.NAME
+                    };
+
+                    groupDataGrid.Items.Add(header);
+                }
+            }
+            catch(Exception error)
+            {
+                MessageBox.Show(error.Message, "Error");
             }
         }
 

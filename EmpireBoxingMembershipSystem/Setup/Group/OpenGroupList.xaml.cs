@@ -44,21 +44,28 @@ namespace EmpireBoxingMembershipSystem.Setup.Group_Corporate
 
         private void GetExistingData(string name)
         {
-            EmpireBoxingEntities db = new EmpireBoxingEntities();
-            var record = db.GROUP_CORPORATE_PROFILE.FirstOrDefault(r => r.NAME == name);
-            var member = db.GROUP_CORPORATE_MEMBERS.Where(r => r.CORP_ID == record.ID);
-
-            txtBoxName.Text = record.NAME;
-            groupDataGrid.Items.Clear();
-            foreach(var item in member)
+            try
             {
-                var fName = db.CLIENT_PROFILE.FirstOrDefault(r => r.CLT_ID == item.CLT_ID);
-                GroupName items = new GroupName
+                EmpireBoxingEntities db = new EmpireBoxingEntities();
+                var record = db.GROUP_CORPORATE_PROFILE.FirstOrDefault(r => r.NAME == name);
+                var member = db.GROUP_CORPORATE_MEMBERS.Where(r => r.CORP_ID == record.ID);
+
+                txtBoxName.Text = record.NAME;
+                groupDataGrid.Items.Clear();
+                foreach (var item in member)
                 {
-                    NameID = item.CLT_ID,
-                    Name = fName.FULL_NAME
-                };
-                groupDataGrid.Items.Add(items);
+                    var fName = db.CLIENT_PROFILE.FirstOrDefault(r => r.CLT_ID == item.CLT_ID);
+                    GroupName items = new GroupName
+                    {
+                        NameID = item.CLT_ID,
+                        Name = fName.FULL_NAME
+                    };
+                    groupDataGrid.Items.Add(items);
+                }
+            }
+            catch(Exception error)
+            {
+                MessageBox.Show(error.Message, "Error");
             }
         }
 
@@ -93,31 +100,38 @@ namespace EmpireBoxingMembershipSystem.Setup.Group_Corporate
 
         private void SaveItems() //Save Member from DataGrid
         {
-            EmpireBoxingEntities db = new EmpireBoxingEntities();
-
-            List<GroupName> gridItem = groupDataGrid.Items.Cast<GroupName>().ToList();
-
-            var corpID = db.GROUP_CORPORATE_PROFILE.FirstOrDefault(q => q.NAME.ToUpper() == txtBoxName.Text.ToUpper());
-
-            foreach (var item in gridItem)
+            try
             {
-                var ifCltExist = db.GROUP_CORPORATE_MEMBERS.Where(r => r.CLT_ID == item.NameID);
+                EmpireBoxingEntities db = new EmpireBoxingEntities();
 
-                if (ifCltExist.ToList().Count == 0)
+                List<GroupName> gridItem = groupDataGrid.Items.Cast<GroupName>().ToList();
+
+                var corpID = db.GROUP_CORPORATE_PROFILE.FirstOrDefault(q => q.NAME.ToUpper() == txtBoxName.Text.ToUpper());
+
+                foreach (var item in gridItem)
                 {
-                    GROUP_CORPORATE_MEMBERS member = new GROUP_CORPORATE_MEMBERS
+                    var ifCltExist = db.GROUP_CORPORATE_MEMBERS.Where(r => r.CLT_ID == item.NameID);
+
+                    if (ifCltExist.ToList().Count == 0)
                     {
-                        CLT_ID = item.NameID,
-                        CORP_ID = corpID.ID
-                    };
-                    db.Entry(member).State = EntityState.Added;
+                        GROUP_CORPORATE_MEMBERS member = new GROUP_CORPORATE_MEMBERS
+                        {
+                            CLT_ID = item.NameID,
+                            CORP_ID = corpID.ID
+                        };
+                        db.Entry(member).State = EntityState.Added;
+                    }
+                    else
+                    {
+                        MessageBox.Show(item.Name + "Already belong to a Group/Corporate");
+                    }
                 }
-                else
-                {
-                    MessageBox.Show(item.Name + "Already belong to a Group/Corporate");
-                }
+                db.SaveChanges();
             }
-            db.SaveChanges();
+            catch(Exception error)
+            {
+                MessageBox.Show(error.Message, "Error");
+            }
         }
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
